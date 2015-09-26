@@ -1,6 +1,6 @@
 use p6;
-use TelegramBot::User;
+use Telegram::Bot::User;
 
-class TelegramBot {
+class Telegram::Bot {
   has $.user = TelegramBot::User.new;
 }

@@ -1,4 +1,4 @@
-class TelegramBot::Location {
+class Telegram::Bot::Location {
   has $.longitude;
   has $.latitude;
 }

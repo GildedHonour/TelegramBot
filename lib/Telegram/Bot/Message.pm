@@ -1,4 +1,4 @@
-class TelegramBot::Message {
+class Telegram::Bot::Message {
   has $.message_id;
   has $.from;
   has $.date;

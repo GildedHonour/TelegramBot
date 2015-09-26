@@ -1,9 +1,6 @@
-class TelegramBot::Video {
+class Telegram::Bot::Voice {
   has $.file_id;
-  has $.width;
-  has $.height;
   has $.duration;
-  has $.thumb;
   has $.mime_type;
   has $.file_size;
 }

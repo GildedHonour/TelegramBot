@@ -1,4 +1,4 @@
-class TelegramBot::Document {
+class Telegram::Bot::Document {
   has $.file_id;
   has $.thumb;
   has $.file_name;

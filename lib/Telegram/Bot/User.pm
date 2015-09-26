@@ -1,4 +1,4 @@
-class TelegramBot::User {
+class Telegram::Bot::User {
   has $.id;
   has $.first_name;
   has $.last_name;
