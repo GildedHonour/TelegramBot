@@ -1,5 +1,5 @@
 {
-  "name" : "WebService::TelegramBot",
+  "name" : "TelegramBot",
   "version" : "0.1.0",
   "description" : "A genuine Perl 6 client for Telegram's Bot API",
   "author" : "Alex Maslakov",

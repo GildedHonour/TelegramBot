@@ -1,5 +1,5 @@
 class Telegram::Bot {
-  method new($token)
+  my has $.token;
   
   method get_updates($offset, $limit, $timeout)
   method set_webhook($url, $certificate)
