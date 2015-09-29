@@ -1,11 +1,11 @@
 class Telegram::Bot::Message {
-  has $.message_id;
+  has $.message-id;
   has $.from;
   has $.date;
   has $.chat;
-  has $.forward_from;
-  has $.forward_date;
-  has $.reply_to_message;
+  has $.forward-from;
+  has $.forward-date;
+  has $.reply-to-message;
   has $.text;
   has $.audio;
   has $.document;
@@ -16,9 +16,9 @@ class Telegram::Bot::Message {
   has $.caption;
   has $.contact;
   has $.location;
-  has $.new_chat_participant;
-  has $.left_chat_participant;
-  has $.new_chat_title;
-  has $.delete_chat_photo;
-  has $.group_chat_created;
+  has $.new-chat-participant;
+  has $.left-chat-participant;
+  has $.new-chat-title;
+  has $.delete-chat-photo;
+  has $.group-chat-created;
 }

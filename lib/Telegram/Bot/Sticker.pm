@@ -1,7 +1,7 @@
 class Telegram::Bot::Sticker {
-  has $.file_id;
+  has $.file-id;
   has $.width;
   has $.height;
   has $.thumb;
-  has $.file_size;
+  has $.file-size;
 }

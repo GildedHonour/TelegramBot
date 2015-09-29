@@ -1,6 +1,6 @@
 class Telegram::Bot::User {
   has $.id;
-  has $.first_name;
-  has $.last_name;
-  has $.user_name;
+  has $.first-name;
+  has $.last-name;
+  has $.user-name;
 }

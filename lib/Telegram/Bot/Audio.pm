@@ -1,7 +1,7 @@
 class Telegram::Bot::Document {
-  has $.file_id;
+  has $.file-id;
   has $.thumb;
-  has $.file_name;
-  has $.mime_type;
-  has $.file_size;
+  has $.file-name;
+  has $.mime-type;
+  has $.file-size;
 }

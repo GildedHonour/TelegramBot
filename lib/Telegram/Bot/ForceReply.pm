@@ -1,4 +1,4 @@
 class Telegram::Bot::ForceReply {
-  has $.force_reply;
+  has $.force-reply;
   has $.selective;
 }

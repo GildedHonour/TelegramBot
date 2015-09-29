@@ -1,6 +1,6 @@
 class Telegram::Bot::PhotoSize {
-  has $.file_id;
+  has $.file-id;
   has $.width;
   has $.height;
-  has $.file_size;
+  has $.file-size;
 }

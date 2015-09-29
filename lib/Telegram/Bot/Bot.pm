@@ -1,21 +1,21 @@
 class Telegram::Bot {
   my has $.token;
   
-  method get_updates($offset, $limit, $timeout)
-  method set_webhook($url, $certificate)
-  method get_me()
-  method send_message($chat_id, $text, $parse_mode, $disable_web_page_preview, $reply_to_message_id, $reply_markup)
-  method forward_message($chat_id, $from_chat_id, $message_id)
+  method get-updates($offset, $limit, $timeout)
+  method set-webhook($url, $certificate)
+  method get-me()
+  method send-message($chat-id, $text, $parse-mode, $disable-web-page-preview, $reply-to-message-id, $reply-markup)
+  method forward-message($chat-id, $from-chat-id, $message-id)
   
-  method send_photo($chat_id, $photo, $caption, $reply_to_message_id, $reply_markup)
-  method send_audio($chat_id, $audio, $duration, $performer, $title, $reply_to_message_id, $reply_markup)
-  method send_document($chat_id, $document, $reply_to_message_id, $reply_markup)
-  method send_sticker($chat_id, $sticker, $reply_to_message_id, $reply_markup)
-  method send_video($chat_id, $video, $duration, $caption, $reply_to_message_id, $reply_markup)
+  method send-photo($chat-id, $photo, $caption, $reply-to-message-id, $reply-markup)
+  method send-audio($chat-id, $audio, $duration, $performer, $title, $reply-to-message-id, $reply-markup)
+  method send-document($chat-id, $document, $reply-to-message-id, $reply-markup)
+  method send-sticker($chat-id, $sticker, $reply-to-message-id, $reply-markup)
+  method send-video($chat-id, $video, $duration, $caption, $reply-to-message-id, $reply-markup)
 
-  method send_voice($chat_id, $voice, $duration, $reply_to_message_id, $reply_markup)
-  method send_location($chat_id, $latitude, $longitude, $reply_to_message_id, $reply_markup)
-  method send_chat_action($chat_id, $action)
-  method get_user_profile_photos($user_id, $offset, $limit)
-  method get_file($file_id)
+  method send-voice($chat-id, $voice, $duration, $reply-to-message-id, $reply-markup)
+  method send-location($chat-id, $latitude, $longitude, $reply-to-message-id, $reply-markup)
+  method send-chat-action($chat-id, $action)
+  method get-user-profile-photos($user-id, $offset, $limit)
+  method get-file($file-id)
 }

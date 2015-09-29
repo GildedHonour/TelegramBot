@@ -1,6 +1,6 @@
 class Telegram::Bot::Voice {
-  has $.file_id;
+  has $.file-id;
   has $.duration;
-  has $.mime_type;
-  has $.file_size;
+  has $.mime-type;
+  has $.file-size;
 }
