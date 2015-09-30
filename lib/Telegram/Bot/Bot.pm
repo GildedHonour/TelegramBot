@@ -1,9 +1,15 @@
+use HTTP::UserAgent;
+
 class Telegram::Bot {
   my has $.token;
-  
+  my $http-client = HTTP::UserAgent.new;
+
   method get-updates($offset, $limit, $timeout)
   method set-webhook($url, $certificate)
-  method get-me()
+  method get-me() {
+    $full_url = build-url($token, "getMe");
+    $http-client
+  }
   method send-message($chat-id, $text, $parse-mode, $disable-web-page-preview, $reply-to-message-id, $reply-markup)
   method forward-message($chat-id, $from-chat-id, $message-id)
   
@@ -18,4 +24,10 @@ class Telegram::Bot {
   method send-chat-action($chat-id, $action)
   method get-user-profile-photos($user-id, $offset, $limit)
   method get-file($file-id)
+
+  method !send-request($url, $method) {
+    $http-client.get(build-url($token, $url));
+  }
+
+  sub !build-url($token, $method-name) { "https://api.telegram.org/bot$token/$method-name" }
 }
