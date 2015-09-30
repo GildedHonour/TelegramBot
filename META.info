@@ -6,6 +6,6 @@
   "provides" : {
     "TelegramBot" : "lib/TelegramBot.pm"
   },
-  "depends" : [ "HTTP::UserAgent" ],
+  "depends" : [ "HTTP::UserAgent", "JSON::Tiny" ],
   "source-url" : "git@github.com:GildedHonour/TelegramBot.git"
 }
