@@ -5,7 +5,7 @@ A genuine Perl 6 client for [Telegram's Bot API](https://core.telegram.org/bots)
 
 ## License
 
-Apache 2.0
+MIT
 
 ## Author
 

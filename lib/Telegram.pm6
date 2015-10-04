@@ -3,16 +3,20 @@ package Telegram::Bot;
 use p6;
 use HTTP::UserAgent;
 use JSON::Tiny;
+
 use Telegram::Bot::Core;
+use Telegram::Bot::User;
 
 class Telegram::Bot {
   has $.token;
   has $http-client = HTTP::UserAgent.new;
   has $endpoint = "https://api.telegram.org";
 
+  enum RequestType <Get Head Post>;
+
   method get-updates($offset, $limit, $timeout)
   method set-webhook($url, $certificate)
-  
+    
   method get-me() {
     my $full-url = build-url($token, "getMe");
     try my $response = !send-request($full-url, "get");
@@ -44,8 +48,19 @@ class Telegram::Bot {
   method get-user-profile-photos($user-id, $offset, $limit)
   method get-file($file-id)
 
-  method !send-request($url, $request_type) {
-    return $http-client.get($url); # or post  $request_type
+  method !send-request($url, RequestType $request_type) {
+    given $request_type {
+      when RequestType::Get {
+        return $http-client.get($url);
+      }
+      when RequestType::Post {
+        return $http-client.post($url); # add post parameters
+      }
+      when RequestType::Head {
+        return $http-client.post($url); # 
+      }
+    } 
+    
   }
 
   sub !build-url($token, $method-name) { "{$endpoint}/bot{$token}/{$method-name}" }

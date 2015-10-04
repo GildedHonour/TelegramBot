@@ -1,3 +1,5 @@
+package Telegram::Bot::Document;
+
 class Telegram::Bot::Document {
   has $.file-id;
   has $.thumb;
