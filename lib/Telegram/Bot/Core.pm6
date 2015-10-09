@@ -30,14 +30,14 @@ class Telegram::Bot::Core {
 
   method get-me() {
     my $full-url = build-url($.token, "getMe");
-    try my $response = $!send-request($full-url, "get");
+    try my $response = self!send-request($full-url, "get");
     if $response.is-success {
       my $user-json = from-json($response.content);
       return User::User.new(
-        id => user-json{'id'},
-        first-name => user-json{'first-name'},
-        last-name => user-json{'last-name'},
-        user-name => user-json{'user-name'}
+        id => $user-json{'id'},
+        first-name => $user-json{'first-name'},
+        last-name => $user-json{'last-name'},
+        user-name => $user-json{'user-name'}
       );
     } else {
       die $response.status-line;
