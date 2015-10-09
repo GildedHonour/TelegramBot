@@ -1,6 +1,5 @@
-package Telegram::Bot;
+unit package Telegram;
 
-use p6;
 use HTTP::UserAgent;
 use JSON::Tiny;
 
@@ -49,6 +48,7 @@ class Telegram::Bot {
   method get-file($file-id)
 
   method !send-request($url, RequestType $request_type) {
+    # todo
     given $request_type {
       when RequestType::Get {
         return $http-client.get($url);
