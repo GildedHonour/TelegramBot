@@ -3,7 +3,7 @@ use JSON::Tiny;
 
 use Telegram::Bot::User;
  
-class Telegram::Bot {
+class Telegram::Bot::Core {
   has $.token;
   has $!http-client = HTTP::UserAgent.new;
   has $!base-endpoint = "https://api.telegram.org";
@@ -27,13 +27,13 @@ class Telegram::Bot {
   }
 
   sub build-url($method-name) { "{!.base-endpoint}/bot{!.token}/{$method-name}" }
-  
+
   method get-me() {
     my $full-url = build-url($.token, "getMe");
-    try my $response = !send-request($full-url, "get");
+    try my $response = $!send-request($full-url, "get");
     if $response.is-success {
       my $user-json = from-json($response.content);
-      return User.new(
+      return User::User.new(
         id => user-json{'id'},
         first-name => user-json{'first-name'},
         last-name => user-json{'last-name'},

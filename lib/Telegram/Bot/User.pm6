@@ -1,3 +1,5 @@
+unit package Telegram::Bot::User;
+
 class Telegram::Bot::User {
   has $.id;
   has $.first-name;
