@@ -3,6 +3,7 @@ use Test;
 
 use lib 'lib';
 use Telegram;
+plan 3;
 
 my $user1 = Telegram::Bot::User.new(
   id => 1,
@@ -12,4 +13,5 @@ my $user1 = Telegram::Bot::User.new(
 );
 
 
-ok($user1.id == 1, 'okkkkk');
+isa-ok($user1, Telegram::Bot::User);
+is($user1.id, 1);
