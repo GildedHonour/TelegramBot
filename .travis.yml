@@ -3,6 +3,9 @@ language: perl6
 notifications:
   email: false
 
+perl6:
+  - latest
+
 branches:
   only:
     - master

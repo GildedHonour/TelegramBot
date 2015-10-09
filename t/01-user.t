@@ -3,7 +3,7 @@ use Test;
 
 use lib 'lib';
 use Telegram;
-plan 3;
+plan 2;
 
 my $user1 = Telegram::Bot::User.new(
   id => 1,
