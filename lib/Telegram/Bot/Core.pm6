@@ -2,35 +2,29 @@ use HTTP::UserAgent;
 use JSON::Tiny;
 
 use Telegram::Bot::User;
- 
+use Telegram::Bot::Update;
+use Telegram::Bot::Message;
+
 class Telegram::Bot::Core {
   has $.token;
   has $!http-client = HTTP::UserAgent.new;
   has $!base-endpoint = "https://api.telegram.org";
 
-  enum RequestType <Get Head Post>;
+  enum RequestType <Get Post>;
 
   method !send-request($url, RequestType $request-type) {
-    # todo
-    given $request-type {
-      when RequestType::Get {
-        return $.http-client.get($url);
-      }
-      when RequestType::Post {
-        return $.http-client.post($url); # add post parameters
-      }
-      when RequestType::Head {
-        return $.http-client.post($url); # 
-      }
-    } 
-    
+    if $request-type == RequestType::Get {
+      return $.http-client.get($url);
+    } else {
+      return $.http-client.post($url); # add post parameters
+    }
   }
 
   sub build-url($method-name) { "{!.base-endpoint}/bot{!.token}/{$method-name}" }
 
   method get-me() {
     my $full-url = build-url($.token, "getMe");
-    try my $response = self!send-request($full-url, "get");
+    try my $response = self!send-request($full-url, RequestType::Get);
     if $response.is-success {
       my $user-json = from-json($response.content);
       return User::User.new(
@@ -45,7 +39,18 @@ class Telegram::Bot::Core {
   }
 
   method get-updates($offset, $limit, $timeout) {
-
+    my $full-url = build-url($.token, "getUpdates");
+    try my $response = self!send-request($full-url, RequestType::Get);
+    if $response.is-success {
+      my $json = from-json($response.content);
+      return Update::Update.new(
+        id => $json{'id'}
+        # message => Nil #todo
+        
+      );
+    } else {
+      die $response.status-line;
+    }
   }
 
   method set-webhook($url, $certificate) {
