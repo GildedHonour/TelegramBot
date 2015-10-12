@@ -2,6 +2,7 @@ unit package Telegram;
 
 use HTTP::UserAgent;
 use JSON::Tiny;
+use HTTP::Request;
 
 use Telegram::Bot::User;
 use Telegram::Bot::Update;
@@ -18,11 +19,14 @@ class Telegram::Bot {
     self.bless(*, token => $token);
   }
 
+  # todo - add block
   method !send-request($url, RequestType $request-type) {
     if $request-type == RequestType::Get {
       return $!http-client.get($url);
     } else {
-      return $!http-client.post($url); # add post parameters
+      my $req = HTTP::Request.new(POST => $url, Content-Type => "application/x-www-form-urlencoded");
+      # $req.add-content("foo=bar&zub=wazok");
+      return $!http-client.request($req); # add post parameters (body)
     }
   }
   
@@ -35,12 +39,12 @@ class Telegram::Bot {
     my $full-url = self!build-url("getMe");
     try my $response = self!send-request($full-url, RequestType::Get);
     if $response.is-success {
-      my $user-json = from-json($response.content){"result"};
+      my $json = from-json($response.content){"result"};
       return Telegram::Bot::User.new(
-        id => $user-json{'id'},
-        first-name => $user-json{'first_name'},
-        last-name => $user-json{'last_name'},
-        user-name => $user-json{'username'}
+        id => $json{"id"},
+        first-name => $json{"first_name"},
+        last-name => $json{"last_name"},
+        user-name => $json{"username"}
       );
     } else {
       die $response.status-line;
@@ -48,21 +52,28 @@ class Telegram::Bot {
   }
 
   method get-updates($offset?, $limit?, $timeout?) {
-    my $full-url = self!build-url($.token, "getUpdates");
+    my $full-url = self!build-url("getUpdates");
     try my $response = self!send-request($full-url, RequestType::Get);
     if $response.is-success {
-      my $json = from-json($response.content);
-      return Update::Update.new(
-        id => $json{'id'}
-        # message => Nil #todo
-        
-      );
+      my $json = from-json($response.content){"result"};
+      if $json == 0 {
+        return [];
+      } else {
+        return [];
+        # todo - parse as an array
+        # my $maybe-msg = $json{"id"};
+        # return Update::Update.new(
+        #   id => $json{"id"},
+        #   message => Nil #todo
+        # );
+      } 
     } else {
       die $response.status-line; #todo - what return?
     }
   }
 
-  method set-webhook($url, $certificate) {
+
+  method set-webhook($url?, $certificate?) {
 
   }
   
