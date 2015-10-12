@@ -1,4 +1,6 @@
+use Telegram::Bot::Message;
+
 class Telegram::Bot::Update {
   has $.id;
-  has Message $.message;
+  has Telegram::Bot::Message $.message;
 }

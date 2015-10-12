@@ -38,6 +38,7 @@ class Telegram::Bot::Core {
     }
   }
 
+                      # todo - make optional
   method get-updates($offset, $limit, $timeout) {
     my $full-url = build-url($.token, "getUpdates");
     try my $response = self!send-request($full-url, RequestType::Get);
@@ -49,7 +50,7 @@ class Telegram::Bot::Core {
         
       );
     } else {
-      die $response.status-line;
+      die $response.status-line; #todo - what return?
     }
   }
 
@@ -104,7 +105,4 @@ class Telegram::Bot::Core {
   method get-file($file-id) {
 
   }
-
-
-
 }
