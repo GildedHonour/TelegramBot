@@ -21,8 +21,7 @@ class Telegram::Bot {
 
   method !send-request($method-name, RequestType $request-type, &callback) {
     my $url = self!build-url($method-name);
-    my $resp;
-    if $request-type == RequestType::Get {
+    my $resp = do if $request-type == RequestType::Get {
       $resp = $!http-client.get($url);
     } else {
       my $req = HTTP::Request.new(POST => $url, Content-Type => "application/x-www-form-urlencoded");
