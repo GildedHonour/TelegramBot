@@ -19,43 +19,42 @@ class Telegram::Bot {
     self.bless(*, token => $token);
   }
 
-  # todo - add block
-  method !send-request($url, RequestType $request-type) {
+  method !send-request($method-name, RequestType $request-type, &callback) {
+    my $url = self!build-url($method-name);
+    my $resp;
     if $request-type == RequestType::Get {
-      return $!http-client.get($url);
+      $resp = $!http-client.get($url);
     } else {
       my $req = HTTP::Request.new(POST => $url, Content-Type => "application/x-www-form-urlencoded");
       # $req.add-content("foo=bar&zub=wazok");
-      return $!http-client.request($req); # add post parameters (body)
+      $resp = $!http-client.request($req); # add post parameters (body)
+    }
+
+    if $resp.is-success {
+      my $json = from-json($resp.content){"result"};
+      callback($json);
+    } else {
+      die $resp.status-line;
     }
   }
   
-  # todo - replace with sub
   method !build-url($method-name) { 
-    return "https://api.telegram.org/bot{$.token}/{$method-name}";
+    "{$!base-endpoint}/bot{$.token}/{$method-name}"
   }
 
   method get-me() {
-    my $full-url = self!build-url("getMe");
-    try my $response = self!send-request($full-url, RequestType::Get);
-    if $response.is-success {
-      my $json = from-json($response.content){"result"};
-      return Telegram::Bot::User.new(
+    self!send-request("getMe", RequestType::Get, -> $json {
+      Telegram::Bot::User.new(
         id => $json{"id"},
         first-name => $json{"first_name"},
         last-name => $json{"last_name"},
         user-name => $json{"username"}
       );
-    } else {
-      die $response.status-line;
-    }
+    });
   }
 
   method get-updates($offset?, $limit?, $timeout?) {
-    my $full-url = self!build-url("getUpdates");
-    try my $response = self!send-request($full-url, RequestType::Get);
-    if $response.is-success {
-      my $json = from-json($response.content){"result"};
+    self!send-request("getUpdates", RequestType::Get, -> $json { 
       if $json == 0 {
         return [];
       } else {
@@ -67,9 +66,7 @@ class Telegram::Bot {
         #   message => Nil #todo
         # );
       } 
-    } else {
-      die $response.status-line; #todo - what return?
-    }
+    });
   }
 
 
@@ -125,10 +122,3 @@ class Telegram::Bot {
 
   }
 }
-
-
-
-
-  # sub !build-url($method-name) { 
-  #   return "{self!base-endpoint}/bot{self!token}/{$method-name}";
-  # }

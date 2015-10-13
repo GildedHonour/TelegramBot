@@ -1,4 +1,4 @@
 class Telegram::Bot::UserProfilePhotos {
   has $.total-count;
-  has $.photos;
+  has @.photos; #todo - array of array
 }
