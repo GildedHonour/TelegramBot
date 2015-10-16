@@ -19,14 +19,22 @@ class Telegram::Bot {
     self.bless(*, token => $token);
   }
 
-  method !send-request($method-name, RequestType $request-type, &callback) {
+  method !send-request($method-name, :$request-type = RequestType::Get, :%http-params = {}, :&callback) {
     my $url = self!build-url($method-name);
     my $resp = do if $request-type == RequestType::Get {
       $resp = $!http-client.get($url);
     } else {
       my $req = HTTP::Request.new(POST => $url, Content-Type => "application/x-www-form-urlencoded");
-      # $req.add-content("foo=bar&zub=wazok");
-      $resp = $!http-client.request($req); # add post parameters (body)
+      if %http-params.elems > 0 {
+        my $req-params;
+        for %http-params.kv -> $k, $v {
+          $req-params ~= "$k=$v&";
+        }
+
+        $req.add-content(substr($req-params, 0, *-1)); 
+      }
+      
+      $resp = $!http-client.request($req);
     }
 
     if $resp.is-success {
@@ -38,11 +46,11 @@ class Telegram::Bot {
   }
   
   method !build-url($method-name) { 
-    "{$!base-endpoint}/bot{$.token}/{$method-name}"
+    "{$!base-endpoint}/bot{$.token}/{$method-name}" 
   }
 
   method get-me() {
-    self!send-request("getMe", RequestType::Get, -> $json {
+    self!send-request("getMe", callback => -> $json {
       Telegram::Bot::User.new(
         id => $json{"id"},
         first-name => $json{"first_name"},
@@ -53,7 +61,7 @@ class Telegram::Bot {
   }
 
   method get-updates($offset?, $limit?, $timeout?) {
-    self!send-request("getUpdates", RequestType::Get, -> $json { 
+    self!send-request("getUpdates", callback => -> $json { 
       if $json == 0 {
         return [];
       } else {
@@ -69,8 +77,19 @@ class Telegram::Bot {
   }
 
 
-  method set-webhook($url?, $certificate?) {
+  method set-webhook(:$url?, :$certificate?) {
+    my %params;
+    if $url {
+      %params{'url'} = $url;
+    }
 
+    if $certificate {
+      %params{'certificate'} = $certificate;
+    }
+
+    self!send-request("setWebhook", request-type => RequestType::Post, http-params => %params, callback => -> $json {
+      $json;
+    });
   }
   
   method send-message($chat-id, $text, $parse-mode, $disable-web-page-preview, $reply-to-message-id, $reply-markup) {
