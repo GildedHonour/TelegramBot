@@ -98,7 +98,7 @@ class Telegram::Bot {
     });
   }
   
-  method send-photo(%params ($chat-id, $photo, $caption, $reply-to-message-id, $reply-markup) {
+  method send-photo(%params ($chat-id, $photo, $caption, $reply-to-message-id, $reply-markup)) {
 
   }
 
