@@ -77,23 +77,18 @@ class Telegram::Bot {
   }
 
 
-  method set-webhook(:$url?, :$certificate?) {
-    my %params;
-    if $url {
-      %params{'url'} = $url;
-    }
-
-    if $certificate {
-      %params{'certificate'} = $certificate;
-    }
-
+  method set-webhook(*%params (:$url, :$certificate)) {
     self!send-request("setWebhook", request-type => RequestType::Post, http-params => %params, callback => -> $json {
+      # todo
       $json;
     });
   }
   
-  method send-message($chat-id, $text, $parse-mode, $disable-web-page-preview, $reply-to-message-id, $reply-markup) {
-
+  method send-message(*%params (:$chat-id, :$text, :$parse-mode, :$disable-web-page-preview, :$reply-to-message-id, :$reply-markup)) {
+    self!send-request("sendMessage", request-type => RequestType::Post, http-params => %params, callback => -> $json {
+      # todo
+      $json;
+    });
   }
 
   method forward-message($chat-id, $from-chat-id, $message-id) {
@@ -138,5 +133,11 @@ class Telegram::Bot {
 
   method get-file($file-id) {
 
+  }
+
+  method !parse-params(%params, @keys) {
+    for %params.kv -> $k, $v {
+
+    }
   }
 }
