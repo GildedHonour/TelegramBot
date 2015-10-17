@@ -2,11 +2,27 @@ Telegram Bot [![Build Status](https://travis-ci.org/GildedHonour/TelegramBot.svg
 ================================================
 A genuine Perl 6 client for [Telegram's Bot API](https://core.telegram.org/bots).
 
+## Example
 
-## License
+```perl6
+use Telegram;
 
-MIT
+my $token = "xxx:yyy"; # replace with your token
+my $bot = Telegram::Bot.new($token);
+my $res = $bot.get-me();
+say $res;
+```
+
+## Tests
+
+```shell
+perl6 t/*.t
+```
 
 ## Author
 
 [Alex Maslakov](http://www.gildedhonour.com)
+
+## License
+
+MIT

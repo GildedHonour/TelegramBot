@@ -148,7 +148,7 @@ class Telegram::Bot {
   }
 
   method send-chat-action($chat-id, $action) {
-    self!send-request("sendChatAction", request-type => RequestType::Post, http-params => %("chat_id" => chat-id, "action" => action), callback => -> $json {
+    self!send-request("sendChatAction", request-type => RequestType::Post, http-params => %("chat_id" => $chat-id, "action" => $action), callback => -> $json {
       # todo
       $json;
     })
