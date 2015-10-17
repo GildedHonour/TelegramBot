@@ -77,57 +77,60 @@ class Telegram::Bot {
   }
 
 
-  method set-webhook(*%params (:$url, :$certificate)) {
+  method set-webhook(%params (:$url, :$certificate)) {
     self!send-request("setWebhook", request-type => RequestType::Post, http-params => %params, callback => -> $json {
       # todo
       $json;
     });
   }
   
-  method send-message(*%params (:$chat-id, :$text, :$parse-mode, :$disable-web-page-preview, :$reply-to-message-id, :$reply-markup)) {
+  method send-message(%params (:$chat-id, :$text, :$parse-mode, :$disable-web-page-preview, :$reply-to-message-id, :$reply-markup)) {
     self!send-request("sendMessage", request-type => RequestType::Post, http-params => %params, callback => -> $json {
       # todo
       $json;
     });
   }
 
-  method forward-message($chat-id, $from-chat-id, $message-id) {
-
+  method forward-message(%params ($chat-id, $from-chat-id, $message-id)) {
+    self!send-request("forwardMessage", request-type => RequestType::Post, http-params => %params, callback => -> $json {
+      # todo
+      $json;
+    });
   }
   
-  method send-photo($chat-id, $photo, $caption, $reply-to-message-id, $reply-markup) {
+  method send-photo(%params ($chat-id, $photo, $caption, $reply-to-message-id, $reply-markup) {
 
   }
 
-  method send-audio($chat-id, $audio, $duration, $performer, $title, $reply-to-message-id, $reply-markup) {
+  method send-audio(%params ($chat-id, $audio, $duration, $performer, $title, $reply-to-message-id, $reply-markup)) {
 
   }
 
-  method send-document($chat-id, $document, $reply-to-message-id, $reply-markup) {
+  method send-document(%params ($chat-id, $document, $reply-to-message-id, $reply-markup)) {
 
   }
 
-  method send-sticker($chat-id, $sticker, $reply-to-message-id, $reply-markup) {
+  method send-sticker(%params ($chat-id, $sticker, $reply-to-message-id, $reply-markup)) {
 
   }
 
-  method send-video($chat-id, $video, $duration, $caption, $reply-to-message-id, $reply-markup) {
+  method send-video(%params ($chat-id, $video, $duration, $caption, $reply-to-message-id, $reply-markup)) {
 
   }
 
-  method send-voice($chat-id, $voice, $duration, $reply-to-message-id, $reply-markup) {
+  method send-voice(%params ($chat-id, $voice, $duration, $reply-to-message-id, $reply-markup)) {
 
   }
 
-  method send-location($chat-id, $latitude, $longitude, $reply-to-message-id, $reply-markup) {
+  method send-location(%params ($chat-id, $latitude, $longitude, $reply-to-message-id, $reply-markup)) {
 
   }
 
-  method send-chat-action($chat-id, $action) {
+  method send-chat-action(%params ($chat-id, $action)) {
 
   }
 
-  method get-user-profile-photos($user-id, $offset, $limit) {
+  method get-user-profile-photos(%params ($user-id, $offset, $limit)) {
 
   }
 
