@@ -16,7 +16,7 @@ say $res;
 ## Tests
 
 ```shell
-perl6 t/*.t
+PERL6LIB=lib prove -e perl6 t
 ```
 
 ## Author
