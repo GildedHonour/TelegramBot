@@ -51,12 +51,7 @@ class Telegram::Bot {
 
   method get-me() {
     self!send-request("getMe", callback => -> $json {
-      Telegram::Bot::User.new(
-        id => $json{"id"},
-        first-name => $json{"first_name"},
-        last-name => $json{"last_name"},
-        user-name => $json{"username"}
-      );
+      Telegram::Bot::User.parse-from-json($json)
     });
   }
 
@@ -81,7 +76,7 @@ class Telegram::Bot {
     self!send-request("setWebhook", request-type => RequestType::Post, http-params => %params, callback => -> $json {
       Telegram::Bot::Message.new(
         id => $json{"message_id"},
-        from => $json{"from"}, # todo User
+        from => Telegram::Bot::User.parse-from-json($json{"from"}), 
         date => $json{"date"},
         chat => $json{"chat"}, # todo Chat
         forward-from => $json{"forward_from"}, # todo User
