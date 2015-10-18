@@ -19,6 +19,7 @@ class Telegram::Bot::Message {
   has $.new-chat-participant;
   has $.left-chat-participant;
   has $.new-chat-title;
+  has $.new-chat-photo; # todo - array of PhotoSize
   has $.delete-chat-photo;
   has $.group-chat-created;
 }

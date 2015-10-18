@@ -5,4 +5,8 @@ class Telegram::Bot::User {
   has $.first-name;
   has $.last-name;
   has $.user-name;
+
+  method parse-json($json) {
+    
+  }
 }

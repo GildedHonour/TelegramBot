@@ -79,8 +79,31 @@ class Telegram::Bot {
 
   method set-webhook(%params (:$url, :$certificate)) {
     self!send-request("setWebhook", request-type => RequestType::Post, http-params => %params, callback => -> $json {
-      # todo
-      $json;
+      Telegram::Bot::Message.new(
+        id => $json{"message_id"},
+        from => $json{"from"}, # todo User
+        date => $json{"date"},
+        chat => $json{"chat"}, # todo Chat
+        forward-from => $json{"forward_from"}, # todo User
+        forward-date => $json{"forward_date"},
+        reply-to-message => $json{"reply_to_message"}, # todo message
+        text => $json{"text"},
+        audio => $json{"audio"}, # todo audio
+        document => $json{"document"}, # todo document
+        photo => $json{"photo"}, # todo array of PhotoSize
+        sticker => $json{"sticker"}, # todo sticker
+        video => $json{"video"}, # todo video
+        voice => $json{"voice"}, # todo voice
+        caption => $json{"caption"},
+        contact => $json{"contact"},  # todo contact
+        location => $json{"location"}, # todo location
+        new-chat-participant => $json{"new_chat_participant"}, # todo user
+        left-chat-participant => $json{"left_chat_participant"}, # todo user
+        new-chat-title => $json{"new_chat_title"},
+        new-chat-photo => $json{"new_chat_photo"}, # todo array of PhotoSize
+        delete-chat-photo => $json{"delete_chat_photo"}, #todo optional
+        group-chat-created => $json{"group_chat_created"} #todo optional
+      );
     });
   }
   
