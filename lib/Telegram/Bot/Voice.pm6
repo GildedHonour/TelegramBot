@@ -1,7 +1,7 @@
 use JSON::Tiny;
 use Telegram::Bot::Core;
 
-class Telegram::Bot::Voice does Telegram::Bot::Core::JsonParseable{
+class Telegram::Bot::Voice does Telegram::Bot::Core::JsonParseable {
   has $.file-id;
   has $.duration;
   has $.mime-type;
@@ -11,7 +11,7 @@ class Telegram::Bot::Voice does Telegram::Bot::Core::JsonParseable{
     self.new(
       file-id => $json{"file_id"},
       duration => $json{"duration"},
-      mime-type => $json{"mime-type"},
+      mime-type => $json{"mime_type"},
       file-size => $json{"file_size"}
     )
   }
