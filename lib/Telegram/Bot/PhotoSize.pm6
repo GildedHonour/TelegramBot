@@ -1,3 +1,6 @@
+use JSON::Tiny;
+use Telegram::Bot::Core;
+
 class Telegram::Bot::PhotoSize does JsonParseable {
   has $.file-id;
   has $.width;

@@ -1,3 +1,6 @@
+use JSON::Tiny;
+use Telegram::Bot::Core;
+
 class Telegram::Bot::Sticker {
   has $.file-id;
   has $.width;
