@@ -38,8 +38,13 @@ class Telegram::Bot {
     }
 
     if $resp.is-success {
-      my $json = from-json($resp.content){"result"};
-      callback($json);
+      my $json_res = from-json($resp.content){"result"};
+      if &callback.defined {
+        callback($json_res)
+      } else {
+        $json_res
+      }
+      
     } else {
       die $resp.status-line;
     }
@@ -71,41 +76,8 @@ class Telegram::Bot {
     });
   }
 
-
   method set-webhook(%params (:$url, :$certificate)) {
-    self!send-request("setWebhook", request-type => RequestType::Post, http-params => %params, callback => -> $json {
-      Telegram::Bot::Message.new(
-        id => $json{"message_id"},
-        from => Telegram::Bot::User.parse-from-json($json{"from"}),
-        date => $json{"date"},
-        
-        chat => Telegram::Bot::Chat::parse-from-json($json{"chat"}),
-        forward-from => Telegram::Bot::User::parse-from-json($json{"forward_from"}),
-        forward-date => $json{"forward_date"},
-        
-        reply-to-message => $json{"reply_to_message"}, # todo message
-        text => $json{"text"},
-        audio => Telegram::Bot::Audio::parse-from-json($json{"audio"}),
-        
-        document => Telegram::Bot::Document::parse-from-json($json{"document"}),
-        photo => $json{"photo"}, # todo array of PhotoSize
-        sticker => Telegram::Bot::Sticker::parse-from-json($json{"sticker"}),
-        
-        video => Telegram::Bot::Video::parse-from-json($json{"video"}),
-        voice => Telegram::Bot::Video::parse-from-json($json{"voice"}),
-        caption => $json{"caption"},
-        
-        contact => Telegram::Bot::Contract::parse-from-json($json{"contact"}),
-        location => Telegram::Bot::Location::parse-from-json($json{"location"}),
-        new-chat-participant => Telegram::Bot::User.parse-from-json($json{"new_chat_participant"}),
-        left-chat-participant => Telegram::Bot::User.parse-from-json($json{"left_chat_participant"}),
-
-        new-chat-title => $json{"new_chat_title"},
-        new-chat-photo => $json{"new_chat_photo"}, # todo array of PhotoSize
-        delete-chat-photo => $json{"delete_chat_photo"}, #todo optional
-        group-chat-created => $json{"group_chat_created"} #todo optional
-      );
-    });
+    self!send-request("setWebhook", request-type => RequestType::Post, http-params => %params)
   }
   
   method send-message(%params (:$chat-id!, :$text!, :$parse-mode, :$disable-web-page-preview, :$reply-to-message-id, :$reply-markup)) {
