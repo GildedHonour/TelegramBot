@@ -22,7 +22,7 @@ class Telegram::Bot::Message does Telegram::Bot::Core::JsonParseable {
   has $.new-chat-participant;
   has $.left-chat-participant;
   has $.new-chat-title;
-  has $.new-chat-photo; # todo - array of PhotoSize
+  has @.new-chat-photo;
   has $.delete-chat-photo;
   has $.group-chat-created;
 
