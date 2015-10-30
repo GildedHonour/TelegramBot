@@ -28,7 +28,8 @@ class Telegram::Bot {
       if %http-params.elems > 0 {
         my $req-params;
         for %http-params.kv -> $k, $v {
-          $req-params ~= "$k=$v&";
+          my $k2 = $k.subst("-", "_");
+          $req-params ~= "$k2=$v&";
         }
 
         $req.add-content(substr($req-params, 0, *-1)); 
