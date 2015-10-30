@@ -22,6 +22,8 @@ class Telegram::Bot {
   method !send-request($method-name, :$request-type = RequestType::Get, :%http-params = {}, :&callback) {
     my $url = self!build-url($method-name);
     my $resp = do if $request-type == RequestType::Get {
+      # todo - check if there're params and add them to $url
+
       $resp = $!http-client.get($url);
     } else {
       my $req = HTTP::Request.new(POST => $url, Content-Type => "application/x-www-form-urlencoded");
@@ -45,7 +47,6 @@ class Telegram::Bot {
       } else {
         $json_res
       }
-      
     } else {
       die $resp.status-line;
     }
@@ -61,8 +62,8 @@ class Telegram::Bot {
     });
   }
 
-  method get-updates($offset?, $limit?, $timeout?) {
-    self!send-request("getUpdates", callback => -> $json { 
+  method get-updates(%params? (:$offset, :$limit, :$timeout)) {
+    self!send-request("getUpdates", http-params => %params, callback => -> $json { 
       if $json == 0 {
         return [];
       } else {
@@ -75,6 +76,8 @@ class Telegram::Bot {
         # );
       } 
     });
+
+
   }
 
   method set-webhook(%params (:$url, :$certificate)) {
