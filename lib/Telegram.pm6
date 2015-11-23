@@ -1,8 +1,9 @@
 unit package Telegram;
 
 use HTTP::UserAgent;
+use HTTP::Request::Common;
+
 use JSON::Tiny;
-use HTTP::Request;
 
 use Telegram::Bot::User;
 use Telegram::Bot::Update;
@@ -23,21 +24,16 @@ class Telegram::Bot {
     my $url = self!build-url($method-name);
     my $resp = do if $request-type == RequestType::Get {
       # todo - check if there're params and add them to $url
-
-      $resp = $!http-client.get($url);
+      $!http-client.get($url);
     } else {
-      my $req = HTTP::Request.new(POST => $url, Content-Type => "application/x-www-form-urlencoded");
-      if %http-params.elems > 0 {
-        my $req-params;
-        for %http-params.kv -> $k, $v {
-          my $k2 = $k.subst("-", "_");
-          $req-params ~= "$k2=$v&";
-        }
-
-        $req.add-content(substr($req-params, 0, *-1)); 
+      my %http-params-formatted;
+      for %http-params.kv -> $k, $v {
+        my $k2 = $k.subst("-", "_");
+        %http-params-formatted{$k2} = $v;
       }
-      
-      $resp = $!http-client.request($req);
+
+      my $req = POST($url, %http-params-formatted);
+      $!http-client.request($req);
     }
 
     if $resp.is-success {
@@ -64,6 +60,7 @@ class Telegram::Bot {
 
   method get-updates(%params? (:$offset, :$limit, :$timeout)) {
     self!send-request("getUpdates", http-params => %params, callback => -> $json { 
+      say $json;
       if $json == 0 {
         return [];
       } else {
@@ -76,8 +73,6 @@ class Telegram::Bot {
         # );
       } 
     });
-
-
   }
 
   method set-webhook(%params (:$url, :$certificate)) {
