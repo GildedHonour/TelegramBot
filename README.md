@@ -25,4 +25,4 @@ PERL6LIB=lib prove -e perl6 t
 
 ## License
 
-MIT
+Apache 2.0
