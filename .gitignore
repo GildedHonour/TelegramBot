@@ -19,3 +19,8 @@ nytprof.out
 *.bs
 /_eumm/
 1.txt
+test1.pl6
+.vscode
+.Rhistory
+*.txt
+test2.pl6

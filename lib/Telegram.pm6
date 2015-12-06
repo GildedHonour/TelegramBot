@@ -36,20 +36,20 @@ class Telegram::Bot {
       $!http-client.request($req);
     }
 
+    my @json-res = @(from-json($resp.content){"result"});
     if $resp.is-success {
-      my $json_res = from-json($resp.content){"result"};
       if &callback.defined {
-        callback($json_res)
+        callback(@json-res)
       } else {
-        $json_res
+        @json-res
       }
     } else {
-      die $resp.status-line;
+      die "HTTP error {@json-res{'error_code'}} {@json-res{'description'}}" # todo
     }
   }
-  
-  method !build-url($method-name) { 
-    "{$!base-endpoint}/bot{$.token}/{$method-name}" 
+
+  method !build-url($method-name) {
+    "{$!base-endpoint}/bot{$.token}/{$method-name}"
   }
 
   method get-me() {
@@ -59,30 +59,24 @@ class Telegram::Bot {
   }
 
   method get-updates(%params? (:$offset, :$limit, :$timeout)) {
-    self!send-request("getUpdates", http-params => %params, callback => -> $json { 
-      say $json;
-      if $json == 0 {
-        return [];
+    self!send-request("getUpdates", http-params => %params, callback => -> @json {
+      if @json == 0 {
+        []
       } else {
-        return [];
-        # todo - parse as an array
-        # my $maybe-msg = $json{"id"};
-        # return Update::Update.new(
-        #   id => $json{"id"},
-        #   message => Nil #todo
-        # );
-      } 
+        @json.map({ 
+          Telegram::Bot::Update.new(id => $_{"update_id"}); # todo - init message
+        });
+      }
     });
   }
 
   method set-webhook(%params (:$url, :$certificate)) {
     self!send-request("setWebhook", request-type => RequestType::Post, http-params => %params)
   }
-  
+
   method send-message(%params (:$chat-id!, :$text!, :$parse-mode, :$disable-web-page-preview, :$reply-to-message-id, :$reply-markup)) {
     self!send-request("sendMessage", request-type => RequestType::Post, http-params => %params, callback => -> $json {
-      # todo
-      $json;
+      $json
     });
   }
 
@@ -92,7 +86,7 @@ class Telegram::Bot {
       $json;
     });
   }
-  
+
   method send-photo(%params ($chat-id!, $photo!, $caption, $reply-to-message-id, $reply-markup)) {
     self!send-request("sendPhoto", request-type => RequestType::Post, http-params => %params, callback => -> $json {
       # todo
