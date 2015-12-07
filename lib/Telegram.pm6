@@ -2,7 +2,6 @@ unit package Telegram;
 
 use HTTP::UserAgent;
 use HTTP::Request::Common;
-
 use JSON::Tiny;
 
 use Telegram::Bot::User;
@@ -36,15 +35,16 @@ class Telegram::Bot {
       $!http-client.request($req);
     }
 
-    my @json-res = @(from-json($resp.content){"result"});
     if $resp.is-success {
+      my @jres = @(from-json($resp.content){"result"});
       if &callback.defined {
-        callback(@json-res)
+        callback(@jres)
       } else {
-        @json-res
+        @jres
       }
     } else {
-      die "HTTP error {@json-res{'error_code'}} {@json-res{'description'}}" # todo
+      my $jres = from-json($resp.content);
+      die "HTTP error {$jres{'error_code'}} : {$jres{'description'}}"; # todo
     }
   }
 
