@@ -44,7 +44,7 @@ class Telegram::Bot {
       }
     } else {
       my $jres = from-json($resp.content);
-      die "HTTP error {$jres{'error_code'}} : {$jres{'description'}}"; # todo
+      die "HTTP error {$jres{'error_code'}} : {$jres{'description'}}";
     }
   }
 
