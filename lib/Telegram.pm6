@@ -7,6 +7,7 @@ use JSON::Tiny;
 use Telegram::Bot::User;
 use Telegram::Bot::Update;
 use Telegram::Bot::Message;
+use Telegram::Bot::File;
 
 class Telegram::Bot {
   has $.token;
@@ -14,12 +15,13 @@ class Telegram::Bot {
   has $!base-endpoint = "https://api.telegram.org";
 
   enum RequestType <Get Post>;
+  enum EntityType <Single Multiple>;
 
   method new($token) {
     self.bless(*, token => $token);
   }
 
-  method !send-request($method-name, :$request-type = RequestType::Get, :%http-params = {}, :&callback) {
+  method !send-request($method-name, :$request-type = RequestType::Get, :%http-params = {}, :$entity-type = EntityType::Multiple, :&callback) {
     my $url = self!build-url($method-name);
     my $resp = do if $request-type == RequestType::Get {
       # todo - check if there're params and add them to $url
@@ -36,15 +38,31 @@ class Telegram::Bot {
     }
 
     if $resp.is-success {
-      my @jres = @(from-json($resp.content){"result"});
-      if &callback.defined {
-        callback(@jres)
+      # todo refactor
+      
+      if $entity-type == EntityType::Single {
+        my %jres = from-json($resp.content){"result"};
+        if &callback.defined {
+        callback(%jres)
+        } else {
+          %jres
+        }
       } else {
-        @jres
+        my @jres = @(from-json($resp.content){"result"});
+        if @jres == 0 {
+          return []
+        }
+        
+        if &callback.defined {
+          callback(@jres)
+        } else {
+          @jres
+        }
       }
+
     } else {
       my $jres = from-json($resp.content);
-      die "HTTP error {$jres{'error_code'}} : {$jres{'description'}}";
+      die "HTTP error {$jres{'error_code'}} {$jres{'description'}}";
     }
   }
 
@@ -60,13 +78,9 @@ class Telegram::Bot {
 
   method get-updates(%params? (:$offset, :$limit, :$timeout)) {
     self!send-request("getUpdates", http-params => %params, callback => -> @json {
-      if @json == 0 {
-        []
-      } else {
-        @json.map({ 
-          Telegram::Bot::Update.new(id => $_{"update_id"}); # todo - init message
-        });
-      }
+      @json.map({ 
+        Telegram::Bot::Update.new(id => $_{"update_id"}); # todo - init message
+      });
     });
   }
 
@@ -151,9 +165,8 @@ class Telegram::Bot {
   }
 
   method get-file($file-id) {
-    self!send-request("getFile", request-type => RequestType::Post, http-params => %("file_id" => $file-id), callback => -> $json {
-      # todo
-      $json;
+    self!send-request("getFile", request-type => RequestType::Post, entity-type => EntityType::Single, http-params => %("file_id" => $file-id), callback => -> %json {
+      Telegram::Bot::File.parse-from-json(%json)
     })
   }
 }
