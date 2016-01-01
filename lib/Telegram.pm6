@@ -24,8 +24,23 @@ class Telegram::Bot {
   method !send-request($method-name, :$request-type = RequestType::Get, :%http-params = {}, :$entity-type = EntityType::Multiple, :&callback) {
     my $url = self!build-url($method-name);
     my $resp = do if $request-type == RequestType::Get {
+
       # todo - check if there're params and add them to $url
-      $!http-client.get($url);
+      my $q-str = do if %http-params != 0 {
+        my $http-params-str;
+        for %http-params.kv -> $k, $v {
+          my $k2 = $k.subst("-", "_");
+          $http-params-str += "$k2=$v";
+        }
+        
+        $http-params-str
+      }
+      
+      if $q-str {
+        $!http-client.get($url + $q-str);
+      } else {
+        $!http-client.get($url);
+      }
     } else {
       my %http-params-formatted;
       for %http-params.kv -> $k, $v {
