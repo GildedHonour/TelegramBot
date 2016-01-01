@@ -181,6 +181,10 @@ class Telegram::Bot {
 
   method get-file($file-id) {
     self!send-request("getFile", request-type => RequestType::Post, entity-type => EntityType::Single, http-params => %("file_id" => $file-id), callback => -> %json {
+      if %json{"file_path"} {
+        %json{"file_path"} = Telegram::Bot::File.get-base-url($!token, %json{"file_path"})
+      }
+      
       Telegram::Bot::File.parse-from-json(%json)
     })
   }

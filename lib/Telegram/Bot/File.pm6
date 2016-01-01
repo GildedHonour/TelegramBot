@@ -12,4 +12,8 @@ class Telegram::Bot::File does Telegram::Bot::Core::JsonParseable {
       file-size => %json{"file_size"},
     )
   }
+  
+  method get-base-url($tkn, $fpath) {
+    "https://api.telegram.org/file/bot{$tkn}{$fpath}"
+  }
 }
