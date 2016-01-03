@@ -21,11 +21,10 @@ class Telegram::Bot {
     self.bless(*, token => $token);
   }
 
+  #todo refactor
   method !send-request($method-name, :$request-type = RequestType::Get, :%http-params = {}, :$entity-type = EntityType::Multiple, :&callback) {
     my $url = self!build-url($method-name);
     my $resp = do if $request-type == RequestType::Get {
-
-      # todo - check if there're params and add them to $url
       my $q-str = do if %http-params != 0 {
         my $http-params-str;
         for %http-params.kv -> $k, $v {
@@ -36,11 +35,7 @@ class Telegram::Bot {
         $http-params-str
       }
       
-      if $q-str {
-        $!http-client.get($url + $q-str);
-      } else {
-        $!http-client.get($url);
-      }
+      $q-str ?? $!http-client.get($url + $q-str) !! $!http-client.get($url)
     } else {
       my %http-params-formatted;
       for %http-params.kv -> $k, $v {
@@ -57,22 +52,14 @@ class Telegram::Bot {
       
       if $entity-type == EntityType::Single {
         my %jres = from-json($resp.content){"result"};
-        if &callback.defined {
-        callback(%jres)
-        } else {
-          %jres
-        }
+        &callback.defined ?? callback(%jres) !! %jres
       } else {
         my @jres = @(from-json($resp.content){"result"});
         if @jres == 0 {
           return []
         }
         
-        if &callback.defined {
-          callback(@jres)
-        } else {
-          @jres
-        }
+        &callback.defined ?? callback(@jres) !! @jres
       }
 
     } else {
@@ -174,8 +161,9 @@ class Telegram::Bot {
 
   method get-user-profile-photos(%params ($user-id!, $offset, $limit)) {
     self!send-request("getUserProfilePhotos", request-type => RequestType::Post, http-params => %params, callback => -> $json {
+      
       # todo
-      $json;
+      Telegram::Bot::UserProfilePhotos.parse-from-json($json)
     })
   }
 
@@ -187,5 +175,9 @@ class Telegram::Bot {
       
       Telegram::Bot::File.parse-from-json(%json)
     })
+  }
+  
+  method log($callback) {
+    # todo
   }
 }
