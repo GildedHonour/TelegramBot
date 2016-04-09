@@ -25,3 +25,5 @@ test1.pl6
 *.txt
 test2.pl6
 .vscode
+.precomp
+my_docs

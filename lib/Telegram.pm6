@@ -180,4 +180,8 @@ class Telegram::Bot {
   method log($callback) {
     # todo
   }
+  
+  method !test-get-data() {
+    
+  }
 }
