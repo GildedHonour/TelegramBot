@@ -18,6 +18,12 @@ my $res = $bot.get-me();
 say $res;
 ```
 
+## Installation
+
+```shell
+$ panda install TelegramBot
+```
+
 ## Tests
 
 ```shell
