@@ -4,8 +4,27 @@
   "description" : "A genuine Perl 6 client for the Telegram's Bot API",
   "authors" : ["Alex Maslakov"],
   "provides" : {
-    "TelegramBot" : "lib/Telegram.pm6"
-  },
+    "TelegramBot" : "lib/Telegram.pm6",
+    "Telegram::Bot::Audio" : "lib/Telegram/Bot/Audio.pm6",
+    "Telegram::Bot::Chat" : "lib/Telegram/Bot/Chat.pm6",
+    "Telegram::Bot::Contact" : "lib/Telegram/Bot/Contact.pm6",
+    "Telegram::Bot::Core" : "lib/Telegram/Bot/Core.pm6",
+    "Telegram::Bot::Document" : "lib/Telegram/Bot/Document.pm6",
+    "Telegram::Bot::File" : "lib/Telegram/Bot/File.pm6",
+    "Telegram::Bot::ForceReply" : "lib/Telegram/Bot/ForceReply.pm6",
+    "Telegram::Bot::GroupChat" : "lib/Telegram/Bot/GroupChat.pm6",
+    "Telegram::Bot::Location" : "lib/Telegram/Bot/Location.pm6",
+    "Telegram::Bot::Message" : "lib/Telegram/Bot/Message.pm6",
+    "Telegram::Bot::PhotoSize" : "lib/Telegram/Bot/PhotoSize.pm6",
+    "Telegram::Bot::ReplyKeyboardHide" : "lib/Telegram/Bot/ReplyKeyboardHide.pm6",
+    "Telegram::Bot::ReplyKeyboardMarkup" : "lib/Telegram/Bot/ReplyKeyboardMarkup.pm6",
+    "Telegram::Bot::Sticker" : "lib/Telegram/Bot/Sticker.pm6",
+    "Telegram::Bot::Update" : "lib/Telegram/Bot/Update.pm6",
+    "Telegram::Bot::User" : "lib/Telegram/Bot/User.pm6",
+    "Telegram::Bot::UserProfilePhotos" : "lib/Telegram/Bot/UserProfilePhotos.pm6",
+    "Telegram::Bot::Video" : "lib/Telegram/Bot/Video.pm6",
+    "Telegram::Bot::Voice" : "lib/Telegram/Bot/Voice.pm6"
+},
   "depends" : ["HTTP::UserAgent", "JSON::Tiny"],
   "source-url" : "git@github.com:GildedHonour/TelegramBot.git"
 }
