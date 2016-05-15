@@ -1,7 +1,9 @@
+unit module Telegram::Bot::Location;
+
 use JSON::Tiny;
 use Telegram::Bot::Core;
 
-class Telegram::Bot::Location does Telegram::Bot::Core::JsonParseable {
+class Location does Telegram::Bot::Core::JsonParseable {
   has $.longitude;
   has $.latitude;
 

@@ -1,7 +1,9 @@
+unit module Telegram::Bot::Message;
+
 use JSON::Tiny;
 use Telegram::Bot::Core;
 
-class Telegram::Bot::Message does Telegram::Bot::Core::JsonParseable {
+class Message does Telegram::Bot::Core::JsonParseable {
   has $.message-id;
   has $.from;
   has $.date;

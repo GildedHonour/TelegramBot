@@ -21,6 +21,7 @@ say $res;
 ## Installation
 
 ```shell
+$ panda update
 $ panda install TelegramBot
 ```
 

@@ -1,7 +1,9 @@
+unit module Telegram::Bot::Document;
+
 use JSON::Tiny;
 use Telegram::Bot::Core;
 
-class Telegram::Bot::Document does Telegram::Bot::Core::JsonParseable {
+class Document does Telegram::Bot::Core::JsonParseable {
   has $.file-id;
   has $.thumb;
   has $.file-name;

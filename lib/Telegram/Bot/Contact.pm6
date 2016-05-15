@@ -1,7 +1,9 @@
+unit module Telegram::Bot::Contact;
+
 use JSON::Tiny;
 use Telegram::Bot::Core;
 
-class Telegram::Bot::Contact does Telegram::Bot::Core::JsonParseable {
+class Contact does Telegram::Bot::Core::JsonParseable {
   has $.phone-number;
   has $.first-name;
   has $.last-name;

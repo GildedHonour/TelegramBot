@@ -1,7 +1,9 @@
+unit module Telegram::Bot::Video;
+
 use JSON::Tiny;
 use Telegram::Bot::Core;
 
-class Telegram::Bot::Video does Telegram::Bot::Core::JsonParseable {
+class Video does Telegram::Bot::Core::JsonParseable {
   has $.file-id;
   has $.width;
   has $.height;

@@ -1,7 +1,9 @@
+unit module Telegram::Bot::Sticker;
+
 use JSON::Tiny;
 use Telegram::Bot::Core;
 
-class Telegram::Bot::Sticker {
+class Sticker {
   has $.file-id;
   has $.width;
   has $.height;

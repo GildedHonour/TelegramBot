@@ -1,7 +1,9 @@
+unit module Telegram::Bot::ForceReply;
+
 use JSON::Tiny;
 use Telegram::Bot::Core;
 
-class Telegram::Bot::ForceReply does JsonParseable {
+class ForceReply does Telegram::Bot::Core::JsonParseable {
   has $.force-reply;
   has $.selective;
 

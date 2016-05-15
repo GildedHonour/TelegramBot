@@ -1,9 +1,9 @@
-package Telegram::Bot::Chat;
+unit module Telegram::Bot::Chat;
 
 use JSON::Tiny;
 use Telegram::Bot::Core;
 
-class Telegram::Bot::Chat does Telegram::Bot::Core::JsonParseable {
+class Chat does Telegram::Bot::Core::JsonParseable {
   has $.id;
   has $.type;
   has $.title;

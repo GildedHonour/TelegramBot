@@ -1,7 +1,9 @@
+unit module Telegram::Bot::ReplyKeyboardHide;
+
 use JSON::Tiny;
 use Telegram::Bot::Core;
 
-class Telegram::Bot::ReplyKeyboardHide does JsonParseable {
+class ReplyKeyboardHide does Telegram::Bot::Core::JsonParseable {
   has $.hide-keyboard;
   has $.selective;
 

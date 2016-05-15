@@ -1,9 +1,9 @@
-package Telegram::Bot::Document;
+unit module Telegram::Bot::Audio;
 
 use JSON::Tiny;
 use Telegram::Bot::Core;
 
-class Telegram::Bot::Audio does Telegram::Bot::Core::JsonParseable {
+class Audio does Telegram::Bot::Core::JsonParseable {
   has $.file-id;
   has $.duration;
   has $.performer;

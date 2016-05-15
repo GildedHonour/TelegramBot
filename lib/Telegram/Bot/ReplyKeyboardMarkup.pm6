@@ -1,7 +1,9 @@
+unit module Telegram::Bot::ReplyKeyboardMarkup;
+
 use JSON::Tiny;
 use Telegram::Bot::Core;
 
-class Telegram::Bot::ReplyKeyboardMarkup does JsonParseable {
+class ReplyKeyboardMarkup does Telegram::Bot::Core::JsonParseable {
   has $.keyboard;
   has $.resize-keyboard;
   has $.one-time-keyboard;

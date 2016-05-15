@@ -1,7 +1,7 @@
 use v6;
 use Test;
 
-use lib 'lib';
+use lib "lib";
 use Telegram;
 plan 2;
 

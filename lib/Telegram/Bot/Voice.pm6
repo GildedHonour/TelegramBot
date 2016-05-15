@@ -1,7 +1,9 @@
+unit module Telegram::Bot::Voice;
+
 use JSON::Tiny;
 use Telegram::Bot::Core;
 
-class Telegram::Bot::Voice does Telegram::Bot::Core::JsonParseable {
+class Voice does Telegram::Bot::Core::JsonParseable {
   has $.file-id;
   has $.duration;
   has $.mime-type;
