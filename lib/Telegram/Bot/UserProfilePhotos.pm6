@@ -1,17 +1,17 @@
-unit module Telegram::Bot::UserProfilePhotos;
+unit class Telegram::Bot::UserProfilePhotos; 
+use Telegram::Bot::Core;
+also does Telegram::Bot::Core::JsonParseable;
 
 use JSON::Tiny;
 use Telegram::Bot::Core;
 
-class UserProfilePhotos does Telegram::Bot::Core::JsonParseable {
-  has $.total-count;
-  has @.photos;
+has $.total-count;
+has @.photos;
 
-  method parse-from-json($json) {
-    self.new(
-      total-count => $json{"total_count"}
-      # todo - photos
+method parse-from-json($json) {
+  self.new(
+    total-count => $json{"total_count"}
+    # todo - photos
 
-    )
-  }
+  )
 }

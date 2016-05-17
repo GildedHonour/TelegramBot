@@ -1,6 +1,6 @@
-unit module Telegram::Bot::GroupChat;
+unit class Telegram::Bot::GroupChat; 
+use Telegram::Bot::Core;
+also does Telegram::Bot::Core::JsonParseable;
 
-class GroupChat {
-  has $.id;
-  has $.title;
-}
+has $.id;
+has $.title;

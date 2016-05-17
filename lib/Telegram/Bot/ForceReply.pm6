@@ -1,16 +1,16 @@
-unit module Telegram::Bot::ForceReply;
+unit class Telegram::Bot::ForceReply; 
+use Telegram::Bot::Core;
+also does Telegram::Bot::Core::JsonParseable;
 
 use JSON::Tiny;
 use Telegram::Bot::Core;
 
-class ForceReply does Telegram::Bot::Core::JsonParseable {
-  has $.force-reply;
-  has $.selective;
+has $.force-reply;
+has $.selective;
 
-  method parse-from-json($json) {
-    self.new(
-      force-reply => $json{"force_reply"},
-      selective => $json{"selective"}
-    )
-  }
+method parse-from-json($json) {
+  self.new(
+    force-reply => $json{"force_reply"},
+    selective => $json{"selective"}
+  )
 }
