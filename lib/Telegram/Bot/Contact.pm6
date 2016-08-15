@@ -1,4 +1,4 @@
-unit class Telegram::Bot::Contact; 
+unit class Telegram::Bot::Contact;
 use Telegram::Bot::Core;
 also does Telegram::Bot::Core::JsonParseable;
 

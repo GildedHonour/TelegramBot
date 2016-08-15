@@ -31,10 +31,10 @@ class Telegram::Bot {
           my $k2 = $k.subst("-", "_");
           $http-params-str += "$k2=$v";
         }
-        
+
         $http-params-str
       }
-      
+
       $q-str ?? $!http-client.get($url + $q-str) !! $!http-client.get($url)
     } else {
       my %http-params-formatted;
@@ -48,8 +48,6 @@ class Telegram::Bot {
     }
 
     if $resp.is-success {
-      # todo refactor
-      
       if $entity-type == EntityType::Single {
         my %jres = from-json($resp.content){"result"};
         &callback.defined ?? callback(%jres) !! %jres
@@ -58,7 +56,7 @@ class Telegram::Bot {
         if @jres == 0 {
           return []
         }
-        
+
         &callback.defined ?? callback(@jres) !! @jres
       }
 
@@ -80,7 +78,7 @@ class Telegram::Bot {
 
   method get-updates(%params? (:$offset, :$limit, :$timeout)) {
     self!send-request("getUpdates", http-params => %params, callback => -> @json {
-      @json.map({ 
+      @json.map({
         Telegram::Bot::Update.new(id => $_{"update_id"}); # todo - init message
       });
     });
@@ -161,7 +159,7 @@ class Telegram::Bot {
 
   method get-user-profile-photos(%params ($user-id!, $offset, $limit)) {
     self!send-request("getUserProfilePhotos", request-type => RequestType::Post, http-params => %params, callback => -> $json {
-      
+
       # todo
       Telegram::Bot::UserProfilePhotos.parse-from-json($json)
     })
@@ -172,16 +170,18 @@ class Telegram::Bot {
       if %json{"file_path"} {
         %json{"file_path"} = Telegram::Bot::File.get-base-url($!token, %json{"file_path"})
       }
-      
+
       Telegram::Bot::File.parse-from-json(%json)
     })
   }
-  
+
   method log($callback) {
     # todo
   }
-  
-  method !test-get-data() {
-    
+
+  method get-chat($chat-id) {
+    self!send-request("getChat", request-type => RequestType::Post, http-params => %("chat_id" => $chat-id), callback => -> $json {
+      Telegram::Bot::Chat.parse-from-json($json)
+    })
   }
 }
