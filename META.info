@@ -25,6 +25,6 @@
     "Telegram::Bot::Video" : "lib/Telegram/Bot/Video.pm6",
     "Telegram::Bot::Voice" : "lib/Telegram/Bot/Voice.pm6"
 },
-  "depends" : ["HTTP::UserAgent", "JSON::Tiny"],
+  "depends" : ["HTTP::UserAgent", "JSON::Tiny", "IO::Socket::SSL"],
   "source-url" : "git@github.com:GildedHonour/TelegramBot.git"
 }
