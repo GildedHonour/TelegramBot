@@ -78,9 +78,7 @@ class Telegram::Bot {
 
   method get-updates(%params? (:$offset, :$limit, :$timeout)) {
     self!send-request("getUpdates", http-params => %params, callback => -> @json {
-      @json.map({
-        Telegram::Bot::Update.new(id => $_{"update_id"}); # todo - init message
-      });
+      @json.map: { Telegram::Bot::Update.parse-from-json($_) };
     });
   }
 
