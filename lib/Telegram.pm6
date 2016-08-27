@@ -18,7 +18,7 @@ class Telegram::Bot {
   enum EntityType <Single Multiple>;
 
   method new($token) {
-    self.bless(*, token => $token);
+    self.bless(token => $token);
   }
 
   #todo refactor
@@ -71,7 +71,7 @@ class Telegram::Bot {
   }
 
   method get-me() {
-    self!send-request("getMe", callback => -> $json {
+    self!send-request("getMe", entity-type => EntityType::Single, callback => -> $json {
       Telegram::Bot::User.parse-from-json($json)
     });
   }
