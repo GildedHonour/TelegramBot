@@ -5,13 +5,13 @@ also does Telegram::Bot::Core::JsonParseable;
 use Telegram::Bot::Core;
 use Telegram::Bot::Message;
 
-has $.id;
+has $.update_id;
 # has Telegram::Bot::Message::Message $.message;
 has $.message;
 
 method parse-from-json($json) {
-  self.new(
-    id => $json{"id"},
-    message => Telegram::Bot::Message.parse-from-json() # todo
-  )
+    self.new(
+        update_id => $json<update_id>,
+        message   => Telegram::Bot::Message.parse-from-json($json<message>),
+    )
 }

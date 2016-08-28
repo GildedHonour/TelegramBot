@@ -18,7 +18,7 @@ class Telegram::Bot {
   enum EntityType <Single Multiple>;
 
   method new($token) {
-    self.bless(*, token => $token);
+    self.bless(token => $token);
   }
 
   #todo refactor
@@ -71,16 +71,14 @@ class Telegram::Bot {
   }
 
   method get-me() {
-    self!send-request("getMe", callback => -> $json {
+    self!send-request("getMe", entity-type => EntityType::Single, callback => -> $json {
       Telegram::Bot::User.parse-from-json($json)
     });
   }
 
   method get-updates(%params? (:$offset, :$limit, :$timeout)) {
     self!send-request("getUpdates", http-params => %params, callback => -> @json {
-      @json.map({
-        Telegram::Bot::Update.new(id => $_{"update_id"}); # todo - init message
-      });
+      @json.map: { Telegram::Bot::Update.parse-from-json($_) };
     });
   }
 
