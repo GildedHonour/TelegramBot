@@ -39,30 +39,34 @@ has @.new-chat-photo;
 has $.delete-chat-photo;
 has $.group-chat-created;
 
+my %ItemConstructors = (
+  from => 'User',
+  chat => 'Chat',
+  forward_from => 'User',
+  audio => 'Audio',
+  document => 'Document',
+  photo => 'PhotoSize',
+  sticker => 'Sticker',
+  video => 'Video',
+  voice => 'Voice',
+  contact => 'Contact',
+  location => 'Location',
+  new_chat_participant => 'User',
+  left_chat_participant => 'User',
+  new_chat_photo => 'PhotoSize',
+);
+
 method parse-from-json($json) {
-  self.new(
-    message-id => $json<message_id>,
-    from => Telegram::Bot::User.parse-from-json($json<from>),
-    date => $json<date>,
-    chat => Telegram::Bot::Chat.parse-from-json($json<forward_from>),
-    forward-from => Telegram::Bot::User.parse-from-json($json<forward_from>),
-    forward-date => $json<forward_date>,
-    # reply-to-message => Message::parse-from-json$json<reply_to_message>, # todo
-    text => $json<text>,
-    audio => Telegram::Bot::Audio.parse-from-json($json<audio>),
-    document => Telegram::Bot::Document.parse-from-json($json<document>),
-    photo => Telegram::Bot::PhotoSize.parse-from-json($json<photo>), #todo - array of
-    sticker => Telegram::Bot::Sticker.parse-from-json($json<sticker>),
-    video => Telegram::Bot::Video.parse-from-json($json<video>),
-    voice => Telegram::Bot::Voice.parse-from-json($json<voice>),
-    caption => $json<caption>,
-    contact => Telegram::Bot::Contact.parse-from-json($json<contact>),
-    location => Telegram::Bot::Location.parse-from-json($json<location>),
-    new-chat-participant => Telegram::Bot::User.parse-from-json($json<new_chat_participant>),
-    left-chat-participant => Telegram::Bot::User.parse-from-json($json<left_chat_participant>),
-    new-chat-title => $json<new_chat_title>,
-    new-chat-photo => Telegram::Bot::PhotoSize.parse-from-json($json<new_chat_photo>), # todo - array of PhotoSize
-    delete-chat-photo => $json<delete_chat_photo>,
-    group-chat-created => $json<group_chat_created>
-  )
+  my %param;
+  for $json.pairs -> $p {
+    my $new-key = $p.key.subst('_','-');
+    my $new-val;
+    if %ItemConstructors{$p.key}:exists {
+      my $constructor = "Telegram::Bot::" ~ %ItemConstructors{$p.key};
+      %param{$new-key} := ::($constructor).parse-from-json($p.value)
+    } else {
+      %param{$new-key} := $p.value;
+    }
+  }
+  self.new(|%param)
 }
