@@ -25,7 +25,7 @@ has $.reply-to-message;
 has $.text;
 has $.audio;
 has $.document;
-has $.photo;
+has @.photo;
 has $.sticker;
 has $.video;
 has $.voice;

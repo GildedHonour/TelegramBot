@@ -11,10 +11,12 @@ has $.height;
 has $.file-size;
 
 method parse-from-json($json) {
-  self.new(
-    file-id => $json{"file_id"},
-    width => $json{"width"},
-    height => $json{"height"},
-    file-size => $json{"file_size"}
-  )
+  $json.map: {
+    self.new(
+      file-id => $_<file_id>,
+      width => $_<width>,
+      height => $_<height>,
+      file-size => $_<file_size>,
+    )
+  }
 }
