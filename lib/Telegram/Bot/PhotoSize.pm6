@@ -1,4 +1,4 @@
-unit class Telegram::Bot::PhotoSize; 
+unit class Telegram::Bot::PhotoSize;
 use Telegram::Bot::Core;
 also does Telegram::Bot::Core::JsonParseable;
 

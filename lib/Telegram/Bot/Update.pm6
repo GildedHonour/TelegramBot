@@ -1,4 +1,4 @@
-unit class Telegram::Bot::Update; 
+unit class Telegram::Bot::Update;
 use Telegram::Bot::Core;
 also does Telegram::Bot::Core::JsonParseable;
 
@@ -10,8 +10,7 @@ has $.update_id;
 has $.message;
 
 method parse-from-json($json) {
-    self.new(
-        update_id => $json<update_id>,
-        message   => Telegram::Bot::Message.parse-from-json($json<message>),
-    )
+  self.new(
+    update_id => $json<update_id>,
+    message  => Telegram::Bot::Message.parse-from-json($json<message>))
 }

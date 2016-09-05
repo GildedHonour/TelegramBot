@@ -33,7 +33,11 @@ PERL6LIB=lib prove -e perl6 t
 
 ## Author
 
-[Alex Maslakov](http://www.gildedhonour.com)
+[Alex Maslakov](http://gildedhonour.com)
+
+## Contributors
+Martin Barth (ufobat)
+David Warring (dwarring)
 
 ## License
 
