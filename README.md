@@ -37,6 +37,7 @@ PERL6LIB=lib prove -e perl6 t
 
 ## Contributors
 Martin Barth (ufobat)
+
 David Warring (dwarring)
 
 ## License
