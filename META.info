@@ -1,4 +1,5 @@
 {
+  "perl" : "6.*",
   "name" : "TelegramBot",
   "version" : "0.1.0",
   "description" : "A genuine Perl 6 client for the Telegram's Bot API",
