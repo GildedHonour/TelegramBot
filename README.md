@@ -2,11 +2,6 @@ Telegram Bot [![Build Status](https://travis-ci.org/GildedHonour/TelegramBot.svg
 ================================================
 A genuine Perl 6 client for the [Telegram's Bot API](https://core.telegram.org/bots).
 
-## Under development
-
-The work is in progress...
-
-
 ## Example
 
 ```perl6
@@ -21,8 +16,7 @@ say $res;
 ## Installation
 
 ```shell
-$ panda update
-$ panda install TelegramBot
+$ zef install TelegramBot
 ```
 
 ## Tests
