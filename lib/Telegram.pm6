@@ -28,7 +28,6 @@ class Telegram::Bot {
       my $q-str = do if %http-params != 0 {
         my @http-params-str;
         for %http-params.kv -> $k, $v {
-            say "my key $k, value $v";
           my $k2 = $k.subst("-", "_");
           push @http-params-str, "$k2=$v";
         }
