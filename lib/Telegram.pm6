@@ -26,16 +26,16 @@ class Telegram::Bot {
     my $url = self!build-url($method-name);
     my $resp = do if $request-type == RequestType::Get {
       my $q-str = do if %http-params != 0 {
-        my $http-params-str;
+        my @http-params-str;
         for %http-params.kv -> $k, $v {
           my $k2 = $k.subst("-", "_");
-          $http-params-str += "$k2=$v";
+          push @http-params-str, "$k2=$v";
         }
 
-        $http-params-str
+        @http-params-str.join('&');
       }
 
-      $q-str ?? $!http-client.get($url + $q-str) !! $!http-client.get($url)
+      $q-str ?? $!http-client.get($url ~ '?' ~ $q-str) !! $!http-client.get($url);
     } else {
       my %http-params-formatted;
       for %http-params.kv -> $k, $v {

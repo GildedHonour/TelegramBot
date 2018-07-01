@@ -5,7 +5,7 @@ A genuine Perl 6 client for the [Telegram's Bot API](https://core.telegram.org/b
 ## Example
 
 ```perl6
-use Telegram;
+use TelegramBot;
 
 my $token = "xxx:yyy"; # replace with your token
 my $bot = Telegram::Bot.new($token);
