@@ -11,5 +11,5 @@ branches:
     - master
 
 install:
-    - rakudobrew build-panda
-    - panda install HTTP::UserAgent JSON::Tiny
+    - rakudobrew build-zef
+    - zef install HTTP::UserAgent JSON::Tiny
