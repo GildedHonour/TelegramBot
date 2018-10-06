@@ -2,6 +2,10 @@ Telegram Bot [![Build Status](https://travis-ci.org/GildedHonour/TelegramBot.svg
 ================================================
 A genuine Perl 6 client for the [Telegram's Bot API](https://core.telegram.org/bots).
 
+## Does anyone want to become the maintainer?
+
+Shoot me a text
+
 ## Example
 
 ```perl6
@@ -37,3 +41,4 @@ David Warring (dwarring)
 ## License
 
 Apache 2.0
+
