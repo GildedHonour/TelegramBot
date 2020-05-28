@@ -1,4 +1,4 @@
-my $token = "xxx:yyy"; # replace with your token
+my $token = "1184270522:AAEqnd9kT0-dlJoZyPbhsJIo7GnfnPm4z08"; # replace with your token
 my $bot = Telegram::Bot.new($token);
 
 # get me
