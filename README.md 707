@@ -1,4 +1,4 @@
-Telegram Bot [![Build Status](https://travis-ci.org/GildedHonour/TelegramBot.svg)](https://travis-ci.org/GildedHonour/TelegramBot)
+Telegram Bot [[Build Status](https://travis-ci.org/GildedHonour/TelegramBot.svg)](https://travis-ci.org/GildedHonour/TelegramBot)
 ================================================
 A genuine Perl 6 client for the [Telegram's Bot API](https://core.telegram.org/bots).
 
@@ -11,9 +11,9 @@ Shoot me a text
 ```perl6
 use Telegram;
 
-my $token = "xxx:yyy"; # replace with your token
-my $bot = Telegram::Bot.new($token);
-my $res = $bot.get-me();
+my $token = "xxx:yyy"; 6002507169:AAGQHx7NT4Mkvdpaw3DBbbCcry8n7IW3KgQ
+my $bot = Telegram::Bot.new($token); @Siti_call_bot
+my $res = $bot.get-me(); @Jedle707
 say $res;
 ```
 
